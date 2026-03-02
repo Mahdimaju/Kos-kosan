@@ -2,6 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Tables\Columns\ImageColumn; // Tambahkan baris ini! [Sumber: Filament Docs]
+use Filament\Forms\Components\FileUpload; // Tambahkan ini agar FileUpload dikenali [Sumber: Filament Docs]
+use Filament\Tables\Columns\TextColumn; // Untuk menampilkan teks [Sumber: Filament Docs]
+
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+
 use App\Filament\Resources\KosResource\Pages;
 use App\Filament\Resources\KosResource\RelationManagers;
 use App\Models\Kos;
@@ -33,25 +41,30 @@ class KosResource extends Resource
 }
 
 
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                ImageColumn::make('image')
-            ->circular(), 
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
+public static function table(Table $table): Table
+{
+    return $table
+        ->columns([
+            Tables\Columns\ImageColumn::make('image')
+                ->label('Foto'), // Memberi label pada kolom [Sumber: Filament Docs]
+
+            TextColumn::make('nama_kos')
+                ->searchable() // Agar admin bisa mencari nama kos [Sumber: Filament Docs]
+                ->sortable(),
+
+            TextColumn::make('harga_per_bulan')
+                ->money('IDR') // Format mata uang Rupiah [Sumber: Filament Docs]
+                ->sortable(),
+
+            TextColumn::make('status')
+                ->badge() // Tampilan seperti label berwarna [Sumber: Filament Docs]
+                ->color(fn (string $state): string => match ($state) {
+                    'Tersedia' => 'success',
+                    'Penuh' => 'danger',
+                }),
+        ]);
+}
+
 
     public static function getRelations(): array
     {
