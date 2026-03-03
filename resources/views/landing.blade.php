@@ -11,7 +11,7 @@
 <body class="bg-gray-50">
     <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <span class="text-xl font-bold text-indigo-600">KosHub</span>
+            <span class="text-xl font-bold text-indigo-600">IndeKos</span>
             <a href="/admin" class="text-gray-600 hover:text-indigo-600 font-medium">Panel Admin</a>
         </div>
     </nav>
