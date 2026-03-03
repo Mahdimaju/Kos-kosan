@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Tables\Columns\TextColumn; // Komponen untuk menampilkan data teks [Sumber: Filament Docs]
+
 use App\Filament\Resources\TransaksiResource\Pages;
 use App\Filament\Resources\TransaksiResource\RelationManagers;
 use App\Models\Transaksi;
@@ -33,24 +35,40 @@ class TransaksiResource extends Resource
 }
 
 
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
+   public static function table(Table $table): Table
+{
+    return $table
+        ->columns([
+            // Menampilkan nama penyewa dengan fitur pencarian [Sumber: Filament Docs]
+            TextColumn::make('nama_penyewa')
+                ->label('Penyewa')
+                ->searchable(),
+
+            // Mengambil nama kos melalui relasi yang sudah kita buat di Model [Sumber: Laravel Eloquent]
+            TextColumn::make('kos.nama_kos')
+                ->label('Nama Kos'),
+
+            // Memformat angka menjadi mata uang Rupiah secara otomatis [Sumber: Filament Docs]
+            TextColumn::make('jumlah_pembayaran')
+                ->money('IDR')
+                ->label('Total Bayar'),
+
+            // Menampilkan tanggal dengan format yang rapi [Sumber: PHP Date]
+            TextColumn::make('tanggal_pembayaran')
+                ->date()
+                ->label('Tanggal'),
+
+            // Memberikan warna pada status (Lunas = Hijau, Pending = Kuning) [Sumber: Filament UI]
+            TextColumn::make('status')
+                ->badge()
+                ->color(fn (string $state): string => match ($state) {
+                    'Lunas' => 'success',
+                    'Pending' => 'warning',
+                    default => 'gray',
+                }),
+        ]);
+}
+
 
     public static function getRelations(): array
     {
