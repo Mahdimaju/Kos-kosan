@@ -8,3 +8,7 @@ Route::get('/', [KosController::class, 'landingPage'])->name('landing');
 
 // Rute untuk Manajemen Kos [Sumber: Laravel Resource Controllers]
 Route::resource('kos', KosController::class);
+
+// Tambahkan ini di routes/web.php [Sumber: Laravel Docs]
+Route::post('/get-payment-token', [App\Http\Controllers\PaymentController::class, 'getSnapToken']);
+
