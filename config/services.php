@@ -13,6 +13,16 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    // Tambahkan ini di dalam array return [Sumber: Laravel Docs]
+    'midtrans' => [
+    'merchantId' => env('MIDTRANS_MERCHANT_ID'),
+    'clientKey' => env('MIDTRANS_CLIENT_KEY'),
+    'serverKey' => env('MIDTRANS_SERVER_KEY'),
+    'isProduction' => env('MIDTRANS_IS_PRODUCTION', false),
+    'isSanitized' => true,
+    'is3ds' => true,
+      ],
+
 
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),

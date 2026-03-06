@@ -6,28 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-public function up(): void {
+public function up(): void
+{
     Schema::create('transaksis', function (Blueprint $table) {
         $table->id();
-        // Menghubungkan transaksi dengan data kos [Sumber: Laravel Migrations]
-        $table->foreignId('kos_id')->constrained('kos')->onDelete('cascade');
+        $table->string('order_id')->unique(); // ID unik buat transaksi Midtrans
+        $table->foreignId('kos_id')->constrained('kos')->onDelete('cascade'); // Relasi ke tabel kos
         $table->string('nama_penyewa');
-        $table->integer('jumlah_pembayaran');
-        $table->date('tanggal_pembayaran');
-        $table->enum('status', ['Pending', 'Lunas', 'Batal'])->default('Pending');
+        $table->bigInteger('jumlah_pembayaran');
+        $table->dateTime('tanggal_pembayaran');
+        $table->string('status')->default('Pending'); // Status awal: Pending, Lunas, atau Gagal
+        $table->string('snap_token')->nullable(); // Tempat simpan token dari Midtrans
         $table->timestamps();
     });
 }
 
-
     /**
-     * Reverse the migrations.
+     * Run the migrations.
      */
-    public function down(): void
-    {
-        Schema::dropIfExists('transaksis');
-    }
+
 };

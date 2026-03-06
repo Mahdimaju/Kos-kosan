@@ -11,4 +11,7 @@ Route::resource('kos', KosController::class);
 
 // Tambahkan ini di routes/web.php [Sumber: Laravel Docs]
 Route::post('/get-payment-token', [App\Http\Controllers\PaymentController::class, 'getSnapToken']);
+// Rute untuk menerima notifikasi dari Midtrans [Sumber: Midtrans Docs]
+Route::post('/midtrans-callback', [App\Http\Controllers\PaymentController::class, 'callback']);
+
 

@@ -15,4 +15,15 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })->create();
+    })
+    // Tambahkan ini di bootstrap/app.php [Sumber: Laravel 11 Docs]
+
+
+// Buka bootstrap/app.php di Acode
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->validateCsrfTokens(except: [
+        'api/midtrans-callback', // Izinkan Midtrans mengirim data ke rute ini [Sumber: Laravel 11 Docs]
+    ]);
+})->create();
+
+
